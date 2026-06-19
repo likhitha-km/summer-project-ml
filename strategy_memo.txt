@@ -1,0 +1,115 @@
+
+═══════════════════════════════════════════════════════════════════════════════
+              NETWORK OPERATIONS STRATEGY MEMO
+              Delhivery — Graph Intelligence Initiative
+              Prepared for: Head of Network Operations
+═══════════════════════════════════════════════════════════════════════════════
+
+EXECUTIVE SUMMARY
+─────────────────
+We analyzed 140,859 trip segments across 1,590 facilities and
+2,506 corridors that make up the network. On a majority of
+shipments (84.8%), actual transit time deviates from the
+system's baseline routing estimate (OSRM) by more than 20%. This is not a
+reflection of SLA performance today, but it does mean our routing engine
+under-represents real network behavior — and that gap is precisely where a
+graph-based view of the network creates value: by learning how delays
+actually propagate through hubs and corridors, we can produce ETAs that hold
+up under real operating conditions.
+
+MODEL IMPACT — FROM ROUTING ESTIMATE TO RELIABLE ETA
+──────────────────────────────────────────────────────
+Augmenting our ETA model with network structure (hub centrality, corridor
+congestion patterns, and facility connectivity) improves prediction error
+from 10.34 to 9.91 minutes (4.2% reduction) and lifts the
+share of shipments with an ETA within 15% of actual delivery time from
+36.9% to 41.1% (+4.2 points). In practical terms: more
+shipments arrive within the window we promise customers, fewer last-minute
+escalations, and capacity planning that reflects how the network truly
+behaves — not just how it would behave on an empty road.
+
+TOP 5 BOTTLENECK HUBS — SLA BREACH CONTRIBUTION
+────────────────────────────────────────────────
+
+#1. Hub: IND000000ACB
+   Monthly Breach Trips : 13,338 (82.1% of outgoing)
+   Monthly Revenue Impact: ₹96.7L (SLA penalties + churn risk)
+   Bottleneck Score      : 0.862 (graph centrality + volume + delay)
+   Recommended Action    : Parallel Route + Capacity Expansion
+
+#2. Hub: IND562132AAA
+   Monthly Breach Trips : 5,965 (81.4% of outgoing)
+   Monthly Revenue Impact: ₹43.2L (SLA penalties + churn risk)
+   Bottleneck Score      : 0.659 (graph centrality + volume + delay)
+   Recommended Action    : Parallel Route + Capacity Expansion
+
+#3. Hub: IND421302AAG
+   Monthly Breach Trips : 5,771 (91.2% of outgoing)
+   Monthly Revenue Impact: ₹41.8L (SLA penalties + churn risk)
+   Bottleneck Score      : 0.379 (graph centrality + volume + delay)
+   Recommended Action    : Parallel Route + Capacity Expansion
+
+#4. Hub: IND411033AAA
+   Monthly Breach Trips : 2,718 (82.1% of outgoing)
+   Monthly Revenue Impact: ₹19.7L (SLA penalties + churn risk)
+   Bottleneck Score      : 0.352 (graph centrality + volume + delay)
+   Recommended Action    : Parallel Route + Capacity Expansion
+
+#5. Hub: IND501359AAE
+   Monthly Breach Trips : 2,268 (89.4% of outgoing)
+   Monthly Revenue Impact: ₹16.4L (SLA penalties + churn risk)
+   Bottleneck Score      : 0.458 (graph centrality + volume + delay)
+   Recommended Action    : Parallel Route + Capacity Expansion
+
+CORRIDOR-SPECIFIC INTERVENTIONS
+────────────────────────────────
+- Chronic corridors (transit time consistently >20% over OSRM): 1,853 corridors
+  identified, accounting for 83,915 breach-trips in the
+  training window.
+
+- Recommended intervention by corridor profile:
+  – Long haul (>300km) with high breach rates → shift to FTL (cost-neutral above 350km)
+  – Urban last-mile, night operations → add a dedicated night shift at the source hub
+  – Medium-distance corridors with seasonal spikes → pre-position surge capacity at top 3 hubs
+
+QUANTIFIED IMPACT OF UPGRADING TOP 3 HUBS
+──────────────────────────────────────────
+- Current annual revenue at risk (full network): ₹75.3 Cr
+- Annual impact from top 3 hubs alone          : ₹21.8 Cr
+- Expected SLA breach reduction (50% target)   : ~14.5% of total network breaches
+- Upgrade capex per hub                        : ₹15L (est.)
+- Estimated payback period (moderate scenario) : under 1 month (~0.5 months) —
+  upgrade cost is recovered almost immediately through reduced SLA penalties
+  and retained revenue, making this one of the highest-return interventions
+  available to the network today
+- 12-month net recovery (3 hubs, 50% reduction): ₹1046L
+
+FTL vs CARTING OPTIMIZATION
+────────────────────────────
+- 37.1% of current route assignments are sub-optimal based on
+  distance, breach rate, and graph position.
+- Aligning route-type decisions to this framework saves an estimated
+  ₹1966L/month in operating cost.
+- Guiding principle: favor FTL when distance exceeds 350km, or when the
+  corridor's breach rate exceeds 35%.
+
+RECOMMENDED NEXT STEPS (0–30 DAYS)
+─────────────────────────────────────
+1. Run the graph-enhanced ETA model in shadow mode alongside OSRM to validate
+   accuracy gains on live shipments before any customer-facing change
+2. Instrument the top 3 bottleneck hubs with real-time dwell-time tracking
+3. Pilot FTL conversion on the top 5 sub-optimal Carting corridors (>400km, breach >30%)
+4. Stand up automated alerting for any corridor exceeding a 40% breach rate
+
+MEDIUM-TERM ROADMAP (30–90 DAYS)
+─────────────────────────────────
+1. Begin facility upgrade planning for the top 2 hubs, prioritized by payback
+2. Move the graph-enhanced ETA model from shadow mode into a controlled pilot
+   on a subset of corridors; validate against OSRM before expanding coverage,
+   and only proceed to a phased production rollout once performance holds
+   up consistently across pilot routes
+3. Integrate the route-type classifier into the dispatch system — an estimated
+   ₹5897L in quarterly savings
+4. Assess parallel-route feasibility for the highest-betweenness hub in the network
+
+═══════════════════════════════════════════════════════════════════════════════
