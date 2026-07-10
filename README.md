@@ -96,3 +96,9 @@ Or open in Google Colab and run top to bottom. Node2Vec training takes approxima
 - Route classifier achieves 85.8% accuracy, identifying ₹1,966L/month in suboptimal assignments
 - Top 3 hub upgrades recoverable in under 1 month at moderate intervention targets
 - Strategy memo structured for direct use by a Head of Network Operations
+
+---
+
+## License
+
+MIT License © 2026 Likhitha K M
