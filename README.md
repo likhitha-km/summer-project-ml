@@ -1,4 +1,4 @@
-# Delhivery — Graph-Based Network Intelligence
+# Delhivery - Graph-Based Network Intelligence
 
 Modeling India's largest logistics network as a directed graph to produce smarter ETA predictions, surface bottleneck hubs, and generate data-backed operational recommendations.
 
